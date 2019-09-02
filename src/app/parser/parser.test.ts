@@ -3,7 +3,6 @@ import { Utils } from '../utils';
 import { expect } from 'chai';
 
 describe('Parser class', () => {
-
   it('should return an instance of Parser', () => {
     let parser = new Parser('');
     expect(parser).to.be.instanceof(Parser);
@@ -40,7 +39,6 @@ describe('Parser class', () => {
   });
 
   describe('parseStructured Validations', () => {
-
     it('should be an empty object if content is empty', () => {
       let content = `$invalid,`;
       let parser = new Parser(content);
@@ -74,7 +72,9 @@ describe('Parser class', () => {
       expect(structured).to.have.property('theme-colors');
       expect(structured.variables.length).be.equal(2);
       expect(structured['theme-colors'].length).be.equal(3);
-      expect(structured['theme-colors'][1].name).to.be.equal('brand-gray-medium');
+      expect(structured['theme-colors'][1].name).to.be.equal(
+        'brand-gray-medium'
+      );
     });
 
     it('should group in variables if end-section is present', () => {
@@ -281,7 +281,9 @@ describe('Parser class', () => {
       expect(map[2].value).be.equal('str-index("Helvetica Neue", "Neue")');
 
       expect(map[3].name).be.equal('adjust-color');
-      expect(map[3].value).be.equal('adjust-color(#d2e1dd, $red: -10, $blue: 10)');
+      expect(map[3].value).be.equal(
+        'adjust-color(#d2e1dd, $red: -10, $blue: 10)'
+      );
 
       expect(map[4].name).be.equal('rgba');
       expect(map[4].value).be.equal('rgba(255, 0, 0, .5)');

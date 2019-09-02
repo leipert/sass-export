@@ -85,7 +85,5 @@ describe('Parser for mixins', () => {
     expect(mixins.length).to.equal(2);
     expect(mixins[0].name).to.be.equal('no-parenthesis-func');
     expect(mixins[1].name).to.be.equal('no-parenthesis-mixin');
-
   });
-
 });

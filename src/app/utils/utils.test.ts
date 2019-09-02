@@ -2,12 +2,15 @@ import { Utils } from './utils';
 import { expect } from 'chai';
 
 describe('Utils class', () => {
-
   let declarations = [
     // tslint:disable:object-literal-key-quotes
-    { "name": "$brand-blue-gray", "value": "#647b86", "compiledValue": "#647b86" },
-    { "name": "$brand-blue-gray-dark", "value": "#546E7A", "compiledValue": "#546E7A" },
-    { "name": "$brand-solitude", "value": "#ebeff2", "compiledValue": "#ebeff2" }
+    { name: '$brand-blue-gray', value: '#647b86', compiledValue: '#647b86' },
+    {
+      name: '$brand-blue-gray-dark',
+      value: '#546E7A',
+      compiledValue: '#546E7A',
+    },
+    { name: '$brand-solitude', value: '#ebeff2', compiledValue: '#ebeff2' },
   ];
 
   it('should have a public helper getDeclaration', () => {
@@ -48,11 +51,11 @@ describe('Utils class', () => {
   });
 
   it('should not break with white spaces an break lines', () => {
-    let compiledCss = '#sass-export-id.font-size {         content: "16px \n" \n;}';
+    let compiledCss =
+      '#sass-export-id.font-size {         content: "16px \n" \n;}';
     let expectedResult = '16px';
     let extracted = Utils.unWrapValue(compiledCss);
 
     expect(extracted).to.be.equal(expectedResult);
-
   });
 });

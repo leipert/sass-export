@@ -3,7 +3,7 @@ import { IOptions } from 'sass-export';
 
 const Types = {
   STRUCTURED: 'structured',
-  ARRAY: 'array'
+  ARRAY: 'array',
 };
 
 export class ConverterBuffer extends Converter {
@@ -21,7 +21,6 @@ export class ConverterBuffer extends Converter {
       return Promise.resolve(this.getStructured());
     }
   }
-
 
   public getContent(): string {
     let contents = this.inputBuffers.map((buffer: Buffer) => buffer.toString());

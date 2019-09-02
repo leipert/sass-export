@@ -11,8 +11,8 @@ var options = minimist(process.argv.slice(2), {
     a: 'array',
     d: 'dependencies',
     h: 'help',
-    v: 'version'
-  }
+    v: 'version',
+  },
 });
 
 var inputFiles = options._;
@@ -39,7 +39,7 @@ var includePaths = (options.dependencies || '').split(',');
 
 var exporter = sassExport({
   inputFiles,
-  includePaths
+  includePaths,
 });
 
 var outputJson = [];

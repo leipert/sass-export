@@ -3,7 +3,7 @@ import * as sass from 'sass';
 import * as glob from 'glob';
 import { Parser, Mixins } from '../parser';
 import { Utils } from '../utils';
-import {IOptions, IDeclaration} from 'sass-export';
+import { IOptions, IDeclaration } from 'sass-export';
 
 const LINE_BREAK = '\n';
 
@@ -12,24 +12,29 @@ const LINE_BREAK = '\n';
  * @param {IOptions} options options parameters
  */
 export class Converter {
-
   constructor(public options?: IOptions) {
-    this.options = options || {} as IOptions;
+    this.options = options || ({} as IOptions);
   }
 
   public getArray(): IDeclaration[] {
     let content = this.getContent();
     let parsedDeclarations = new Parser(content).parse();
 
-    return parsedDeclarations.map((declaration) => {
+    return parsedDeclarations.map(declaration => {
       if (declaration.mapValue) {
-        declaration.mapValue.map((mapDeclaration) => {
-          mapDeclaration.compiledValue = this.renderPropertyValue(content, mapDeclaration);
+        declaration.mapValue.map(mapDeclaration => {
+          mapDeclaration.compiledValue = this.renderPropertyValue(
+            content,
+            mapDeclaration
+          );
           return mapDeclaration;
         });
-        declaration.compiledValue = declaration.mapValue.toString()
+        declaration.compiledValue = declaration.mapValue.toString();
       } else {
-        declaration.compiledValue = this.renderPropertyValue(content, declaration);
+        declaration.compiledValue = this.renderPropertyValue(
+          content,
+          declaration
+        );
       }
 
       declaration.name = `$${declaration.name}`;
@@ -37,7 +42,6 @@ export class Converter {
       return declaration;
     });
   }
-
 
   public getStructured(): any {
     let content = this.getContent();
@@ -47,22 +51,26 @@ export class Converter {
     return structuredDeclaration;
   }
 
-
   public compileStructure(structuredDeclaration: IDeclaration): object {
     let groups = Object.keys(structuredDeclaration);
 
-    groups.forEach((group) => {
+    groups.forEach(group => {
       let content = this.getContent();
 
-      let compiledGroup = structuredDeclaration[group].map((declaration) => {
-
+      let compiledGroup = structuredDeclaration[group].map(declaration => {
         if (declaration.mapValue) {
-          declaration.mapValue.map((mapDeclaration) => {
-            mapDeclaration.compiledValue = this.renderPropertyValue(content, mapDeclaration);
+          declaration.mapValue.map(mapDeclaration => {
+            mapDeclaration.compiledValue = this.renderPropertyValue(
+              content,
+              mapDeclaration
+            );
           });
-          declaration.compiledValue = declaration.mapValue.toString()
+          declaration.compiledValue = declaration.mapValue.toString();
         } else {
-          declaration.compiledValue = this.renderPropertyValue(content, declaration);
+          declaration.compiledValue = this.renderPropertyValue(
+            content,
+            declaration
+          );
         }
 
         declaration.name = `$${declaration.name}`;
@@ -71,12 +79,10 @@ export class Converter {
       });
 
       return compiledGroup;
-
     });
 
     return this.checkForMixins(structuredDeclaration);
   }
-
 
   public getContent(): string {
     let inputFiles = [];
@@ -88,30 +94,31 @@ export class Converter {
       inputFiles = this.options.inputFiles;
     }
 
-    inputFiles.forEach((path) => {
+    inputFiles.forEach(path => {
       let files = glob.sync(String(path));
       inputs.push(...files);
     });
 
-    let contents = inputs.map((filePath) => fs.readFileSync(String(filePath)));
+    let contents = inputs.map(filePath => fs.readFileSync(String(filePath)));
 
     return contents.join(LINE_BREAK);
   }
-
 
   private checkForMixins(structuredDeclaration: object) {
     let mixinsGroup = 'mixins';
     let parsedMixins = new Mixins(this.getContent()).parse();
 
     if (parsedMixins && parsedMixins.length) {
-      structuredDeclaration[mixinsGroup] =  parsedMixins;
+      structuredDeclaration[mixinsGroup] = parsedMixins;
     }
 
     return structuredDeclaration;
   }
 
-
-  private renderPropertyValue(content: string, declaration: IDeclaration): string {
+  private renderPropertyValue(
+    content: string,
+    declaration: IDeclaration
+  ): string {
     try {
       let rendered = sass.renderSync({
         data: content + LINE_BREAK + Utils.wrapCss(declaration),
@@ -121,7 +128,6 @@ export class Converter {
       let wrappedRendered = String(rendered.css);
 
       return Utils.unWrapValue(wrappedRendered);
-
     } catch (err) {
       console.error(err);
       return ''; // if the property can't be rendered, then it should return an empty string

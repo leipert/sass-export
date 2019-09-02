@@ -24,23 +24,15 @@
   "mixins": [
     {
       "name": "box",
-      "parameters": [
-        "$p1",
-        "$p2"
-      ]
+      "parameters": ["$p1", "$p2"]
     },
     {
       "name": "my-fucntion",
-      "parameters": [
-        "$val"
-      ]
+      "parameters": ["$val"]
     },
     {
       "name": "z",
-      "parameters": [
-        "$val: 10px",
-        "$p2: '#COFF33'"
-      ]
+      "parameters": ["$val: 10px", "$p2: '#COFF33'"]
     },
     {
       "name": "no-params",
@@ -48,9 +40,7 @@
     },
     {
       "name": "respond-to",
-      "parameters": [
-        "$breakpoint"
-      ]
+      "parameters": ["$breakpoint"]
     }
   ]
 }

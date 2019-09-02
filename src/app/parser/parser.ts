@@ -2,8 +2,7 @@ import { IDeclaration } from 'sass-export';
 
 const VARIABLE_PATERN = '(?!\\d)[\\w_-][\\w\\d_-]*';
 const VALUE_PATERN = '[^;]+|"(?:[^"]+|(?:\\\\"|[^"])*)"';
-const DECLARATION_PATTERN =
-  `\\$['"]?(${VARIABLE_PATERN})['"]?\\s*:\\s*(${VALUE_PATERN})(?:\\s*!(global|default)\\s*;|\\s*;(?![^\\{]*\\}))`;
+const DECLARATION_PATTERN = `\\$['"]?(${VARIABLE_PATERN})['"]?\\s*:\\s*(${VALUE_PATERN})(?:\\s*!(global|default)\\s*;|\\s*;(?![^\\{]*\\}))`;
 
 const MAP_DECLARATIOM_REGEX = /['"]?((?!\d)[\w_-][\w\d_-]*)['"]?\s*:\s*([a-z\-]+\([^\)]+\)|[^\),\/]+)/gi;
 
@@ -15,7 +14,6 @@ const SECTION_PATTERN = `(@${SECTION_TAG}=)(".+")`;
 const END_SECTION_PATTERN = `(@end-${SECTION_TAG})`;
 
 const DEFAULT_SECTION = 'variables';
-
 
 export class Parser {
   private rawContent: string;
@@ -29,7 +27,10 @@ export class Parser {
     let declarations = [];
 
     for (let match of matches) {
-      if (!this.checkIsSectionStart(match) && !this.checkIsSectionStart(match)) {
+      if (
+        !this.checkIsSectionStart(match) &&
+        !this.checkIsSectionStart(match)
+      ) {
         let parsed = this.parseSingleDeclaration(match);
 
         if (parsed) {
@@ -37,7 +38,9 @@ export class Parser {
 
           // in case the variable is a sass map
           if (map.length) {
-            parsed.mapValue = map.map((declaration) => this.parseSingleDeclaration(`$${declaration};`));
+            parsed.mapValue = map.map(declaration =>
+              this.parseSingleDeclaration(`$${declaration};`)
+            );
           }
 
           declarations.push(parsed);
@@ -47,7 +50,6 @@ export class Parser {
 
     return declarations;
   }
-
 
   public parseStructured(): any {
     let matches = this.extractDeclarationsStructured(this.rawContent);
@@ -62,7 +64,9 @@ export class Parser {
 
     for (let match of matches) {
       if (this.checkIsSectionStart(match)) {
-        let sectionName = String(new RegExp(SECTION_PATTERN, 'gi').exec(match)[2]);
+        let sectionName = String(
+          new RegExp(SECTION_PATTERN, 'gi').exec(match)[2]
+        );
 
         if (sectionName) {
           currentSection = sectionName.replace(/"/g, '');
@@ -78,7 +82,9 @@ export class Parser {
 
           // in case the variable is a sass map
           if (map.length) {
-            parsed.mapValue = map.map((declaration) => this.parseSingleDeclaration(`$${declaration};`));
+            parsed.mapValue = map.map(declaration =>
+              this.parseSingleDeclaration(`$${declaration};`)
+            );
           }
 
           declarations[currentSection].push(parsed);
@@ -89,9 +95,13 @@ export class Parser {
     return declarations;
   }
 
-
   private extractDeclarationsStructured(content: string): [any] {
-    const matches = content.match(new RegExp(`${DECLARATION_PATTERN}|${SECTION_PATTERN}|${END_SECTION_PATTERN}`, 'g'));
+    const matches = content.match(
+      new RegExp(
+        `${DECLARATION_PATTERN}|${SECTION_PATTERN}|${END_SECTION_PATTERN}`,
+        'g'
+      )
+    );
 
     if (!matches) {
       return [] as any;
@@ -99,7 +109,6 @@ export class Parser {
 
     return matches as any;
   }
-
 
   private extractDeclarations(content: string): [any] {
     const matches = content.match(new RegExp(DECLARATION_PATTERN, 'g'));
@@ -121,7 +130,6 @@ export class Parser {
     return matches as any;
   }
 
-
   private parseSingleDeclaration(matchDeclaration: string): IDeclaration {
     let matches = matchDeclaration
       .replace(/\s*!(default|global)\s*;/, ';')
@@ -141,13 +149,11 @@ export class Parser {
     return { name, value } as IDeclaration;
   }
 
-
   private checkIsSectionStart(content: string): boolean {
-    return (new RegExp(SECTION_PATTERN, 'gi')).test(content);
+    return new RegExp(SECTION_PATTERN, 'gi').test(content);
   }
 
-
   private checkIsSectionEnd(content: string): boolean {
-    return (new RegExp(END_SECTION_PATTERN, 'gi')).test(content);
+    return new RegExp(END_SECTION_PATTERN, 'gi').test(content);
   }
 }
