@@ -37,7 +37,7 @@
   "dependencies": {
     "glob": "^7.1.2",
     "minimist": "^1.2.0",
-    "node-sass": "^4.5.2"
+    "sass": "^1.22.10"
   },
   "repository": {
     "type": "git",

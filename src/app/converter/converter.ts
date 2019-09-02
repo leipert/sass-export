@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as sass from 'node-sass';
+import * as sass from 'sass';
 import * as glob from 'glob';
 import { Parser, Mixins } from '../parser';
 import { Utils } from '../utils';
@@ -21,15 +21,18 @@ export class Converter {
     let parsedDeclarations = new Parser(content).parse();
 
     return parsedDeclarations.map((declaration) => {
-      declaration.compiledValue = this.renderPropertyValue(content, declaration);
-      declaration.name = `$${declaration.name}`;
-
       if (declaration.mapValue) {
         declaration.mapValue.map((mapDeclaration) => {
           mapDeclaration.compiledValue = this.renderPropertyValue(content, mapDeclaration);
           return mapDeclaration;
         });
+        declaration.compiledValue = declaration.mapValue.toString()
+      } else {
+        declaration.compiledValue = this.renderPropertyValue(content, declaration);
       }
+
+      declaration.name = `$${declaration.name}`;
+
       return declaration;
     });
   }
@@ -51,18 +54,23 @@ export class Converter {
       let content = this.getContent();
 
       let compiledGroup = structuredDeclaration[group].map((declaration) => {
-        declaration.compiledValue = this.renderPropertyValue(content, declaration);
-        declaration.name = `$${declaration.name}`;
 
         if (declaration.mapValue) {
           declaration.mapValue.map((mapDeclaration) => {
             mapDeclaration.compiledValue = this.renderPropertyValue(content, mapDeclaration);
-            return mapDeclaration;
           });
+          declaration.compiledValue = declaration.mapValue.toString()
+        } else {
+          declaration.compiledValue = this.renderPropertyValue(content, declaration);
         }
+
+        declaration.name = `$${declaration.name}`;
 
         return declaration;
       });
+
+      return compiledGroup;
+
     });
 
     return this.checkForMixins(structuredDeclaration);
@@ -107,7 +115,6 @@ export class Converter {
       let rendered = sass.renderSync({
         data: content + LINE_BREAK + Utils.wrapCss(declaration),
         includePaths: this.options.includePaths,
-        outputStyle: 'compact'
       });
 
       let wrappedRendered = String(rendered.css);

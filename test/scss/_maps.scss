@@ -28,10 +28,13 @@ $map-get: (
   icon: map-get($icons, music)
 );
 
+$px-1: 1px;
+$px-4: 4px;
+
 // @sass-export-section="funcs"
 $funcs: (
-  max: max(1px, 4px),
-  min: min(1px, 4px),
+  max: max($px-1, $px-4),
+  min: min($px-1, $px-4),
   str-index: str-index("Helvetica Neue", "Neue"),
   adjust-color: adjust-color(#d2e1dd, $red: -10, $blue: 10),
   rgba: rgba(255, 0, 0, .5),
