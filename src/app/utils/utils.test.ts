@@ -36,14 +36,14 @@ describe('Utils class', () => {
 
   it('should wrap a variable', () => {
     let declaration = { name: 'var', value: '$the-value', compiledValue: '' };
-    let expectedResult = '#sass-export-id.var{content:"#{$the-value}";}';
+    let expectedResult = '#sass-export-id.identifier-var{content:"#{$the-value}";}';
     let wrapped = Utils.wrapCss(declaration);
 
     expect(wrapped).to.be.equal(expectedResult);
   });
 
   it('should unwrap the css generated', () => {
-    let compiledCss = '#sass-export-id.var{content:"#{$the-value}";}';
+    let compiledCss = '#sass-export-id.identifier-var{content:"#{$the-value}";}';
     let expectedResult = '#{$the-value}';
     let extracted = Utils.unWrapValue(compiledCss);
 
@@ -52,7 +52,7 @@ describe('Utils class', () => {
 
   it('should not break with white spaces an break lines', () => {
     let compiledCss =
-      '#sass-export-id.font-size {         content: "16px \n" \n;}';
+      '#sass-export-id.identifier-font-size {         content: "16px \n" \n;}';
     let expectedResult = '16px';
     let extracted = Utils.unWrapValue(compiledCss);
 

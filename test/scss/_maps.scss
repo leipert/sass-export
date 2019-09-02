@@ -40,3 +40,9 @@ $funcs: (
   rgba: rgba(255, 0, 0, .5),
   darken: darken(#b37399, 20%)
 );
+
+// @sass-export-section="numbered"
+$numbered: (
+  '1': $px-1,
+  '4': $px-4
+);

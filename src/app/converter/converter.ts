@@ -29,7 +29,7 @@ export class Converter {
           );
           return mapDeclaration;
         });
-        declaration.compiledValue = declaration.mapValue.toString();
+        declaration.compiledValue = JSON.stringify(declaration.mapValue);
       } else {
         declaration.compiledValue = this.renderPropertyValue(
           content,
@@ -65,7 +65,7 @@ export class Converter {
               mapDeclaration
             );
           });
-          declaration.compiledValue = declaration.mapValue.toString();
+          declaration.compiledValue = JSON.stringify(declaration.mapValue);
         } else {
           declaration.compiledValue = this.renderPropertyValue(
             content,

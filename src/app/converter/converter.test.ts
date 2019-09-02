@@ -254,6 +254,22 @@ describe('Converter class', () => {
         expect(map[ix].compiledValue).to.be.equal(compiled);
       });
     });
+
+    it('should work with maps that only have number keys', () => {
+      let result = structured['numbered'][0];
+      expect(result).to.have.property('mapValue');
+      let map = result.mapValue;
+      expect(map[0]).to.eql({
+        compiledValue: '1px',
+        name: '1',
+        value: '$px-1',
+      });
+      expect(map[1]).to.eql({
+        compiledValue: '4px',
+        name: '4',
+        value: '$px-4',
+      });
+    });
   });
 
   describe('mixins support', () => {

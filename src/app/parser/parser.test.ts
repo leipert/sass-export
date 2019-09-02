@@ -257,6 +257,31 @@ describe('Parser class', () => {
       expect(map[0].value).be.equal('map-get($source, one)');
     });
 
+    it('should allow maps with numbered keys in values', () => {
+      let content = `
+          $pixels: (
+            '50': 50px,
+            '100': 100px,
+          );`;
+
+      let parser = new Parser(content);
+      let structured = parser.parseStructured();
+      expect(structured.variables[0]).be.eql({
+        mapValue: [
+          {
+            name: '50',
+            value: '50px',
+          },
+          {
+            name: '100',
+            value: '100px',
+          },
+        ],
+        name: 'pixels',
+        value: "( '50': 50px, '100': 100px, )",
+      });
+    });
+
     it('should allow function calls with multiple arguments in values', () => {
       let content = `$funcs: (
         max: max(1px, 4px), // 4px

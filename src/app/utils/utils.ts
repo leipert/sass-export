@@ -1,7 +1,7 @@
 import { IDeclaration } from 'sass-export';
 
 const WRAPPER_CSS_ID = '#sass-export-id';
-const UNWRAPPER_PATTERN = `${WRAPPER_CSS_ID}\\.(.+)\\s*\\{\\s*content:\\s*["'](.+)["']`;
+const UNWRAPPER_PATTERN = `${WRAPPER_CSS_ID}\\.identifier-(.+)\\s*\\{\\s*content:\\s*["'](.+)["']`;
 
 /**
  * Class for static utility functions
@@ -20,7 +20,7 @@ export class Utils {
   }
 
   public static wrapCss(cssDeclaration: IDeclaration): string {
-    return `${WRAPPER_CSS_ID}.${cssDeclaration.name}{content:"#{${cssDeclaration.value}}";}`;
+    return `${WRAPPER_CSS_ID}.identifier-${cssDeclaration.name}{content:"#{${cssDeclaration.value}}";}`;
   }
 
   public static unWrapValue(wrappedContent: string): string {
