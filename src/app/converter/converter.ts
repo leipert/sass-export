@@ -3,6 +3,7 @@ import * as sass from 'sass';
 import * as glob from 'glob';
 import { Parser, Mixins } from '../parser';
 import { Utils } from '../utils';
+import {IOptions, IDeclaration} from 'sass-export';
 
 const LINE_BREAK = '\n';
 

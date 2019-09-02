@@ -8,13 +8,9 @@
     "declarationDir": "./dist/declarations",
     "removeComments": true,
     "newLine": "LF",
-    "sourceMap": true
+    "sourceMap": true,
+    "typeRoots": ["./node_modules/@types", "./typings"]
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*.test.ts"
-  ],
-  "typeRoots": ["node_modules/@types"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.test.ts"]
 }

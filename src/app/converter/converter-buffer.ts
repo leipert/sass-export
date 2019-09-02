@@ -1,6 +1,5 @@
 import { Converter } from './converter';
-import { Parser } from '../parser';
-import { Utils } from '../utils';
+import { IOptions } from 'sass-export';
 
 const Types = {
   STRUCTURED: 'structured',

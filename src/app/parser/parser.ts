@@ -1,3 +1,5 @@
+import { IDeclaration } from 'sass-export';
+
 const VARIABLE_PATERN = '(?!\\d)[\\w_-][\\w\\d_-]*';
 const VALUE_PATERN = '[^;]+|"(?:[^"]+|(?:\\\\"|[^"])*)"';
 const DECLARATION_PATTERN =

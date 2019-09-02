@@ -1,3 +1,5 @@
+import { IDeclaration } from 'sass-export';
+
 const WRAPPER_CSS_ID = '#sass-export-id';
 const UNWRAPPER_PATTERN = `${WRAPPER_CSS_ID}\\.(.+)\\s*\\{\\s*content:\\s*["'](.+)["']`;
 
